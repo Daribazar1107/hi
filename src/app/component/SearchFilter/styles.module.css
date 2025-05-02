@@ -1,0 +1,66 @@
+.search {
+  background-color: #f9f9f9;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.searchFilters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+.searchContainer {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: 8px;
+  width: 100%;
+}
+
+.searchContainer input[type="text"],
+.searchContainer input[type="date"],
+.searchContainer input[type="number"] {
+  flex: 1;
+  min-width: 120px;
+  padding: 12px 16px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 16px;
+  transition: border-color 0.3s;
+}
+
+.searchContainer input[type="text"]:focus,
+.searchContainer input[type="date"]:focus,
+.searchContainer input[type="number"]:focus {
+  border-color: #007bff;
+  outline: none;
+}
+
+.button {
+  background-color: #007bff;
+  color: #fff;
+  padding: 12px 24px;
+  font-size: 16px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.button:hover {
+  background-color: #0056b3;
+}
+
+@media (max-width: 768px) {
+  .searchContainer {
+    flex-direction: column;
+  }
+
+  .button {
+    width: 100%;
+  }
+}

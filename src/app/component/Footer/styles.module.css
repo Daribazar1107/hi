@@ -1,0 +1,55 @@
+
+.footer {
+    display: flex;
+    justify-content: space-between;
+    gap: 40px;
+    flex-wrap: wrap;
+    padding: 40px 50px;
+    background-color: #00879E;
+    color: black;
+    bottom: 0;
+  }
+  
+  .about, .info, .service {
+    min-width: 180px;
+  }
+  
+  .about h4,
+  .info h4,
+  .service h4 {
+    font-size: 1.2rem;
+    font-weight: bold;
+    margin-bottom: 30px;
+  }
+  
+  .about a,
+  .info a,
+  .service a {
+    display: block;
+    text-decoration: none;
+    color: black;
+    font-size: 1rem;
+    margin-top: 15px;
+    transition: 0.3s ease-in-out;
+    position: relative;
+  }
+  
+  .about a::after,
+  .info a::after,
+  .service a::after {
+    content: '';
+    position: absolute;
+    height: 2px;
+    left: 0;
+    bottom: 0;
+    width: 0;
+    background: #B1F0F7;
+    transition: width 0.5s;
+  }
+
+  .about a:hover::after,
+  .info a:hover::after,
+  .service a:hover::after {
+    width: 100%;
+  }
+  

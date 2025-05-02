@@ -23,4 +23,83 @@ body {
   background: var(--background);
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  list-style: none;
+  flex-grow: 0;
+  flex-shrink: 0;
+}
+
+.prev, .next {
+  cursor: pointer;
+  position: absolute;
+  top: 50%;
+  padding: 16px;
+  color: white;
+  font-weight: bold;
+  font-size: 24px;
+  background: rgba(0, 0, 0, 0.5);
+  border-radius: 0 3px 3px 0;
+  transform: translateY(-50%);
+  user-select: none;
+}
+
+.prev {
+  left: 0;
+  border-radius: 3px 0 0 3px;
+}
+
+.next{
+  right: 0;
+  border-radius: 0 3px 3px 0;
+}
+
+.slider-hotel {
+  display: flex;
+  justify-content: center;
+  align-self: center;
+  flex-direction: column;
+  margin: auto;
+  padding: auto;
+  text-align: center;
+  position: relative;
+}
+
+.slider-hotel img {
+  width: 100%;
+  max-width: 1300px;
+  height: 450px;
+  object-fit: cover;
+  border-radius: 10px;
+  margin: 0 auto;
+  margin-top: 20px;
+}
+
+.slider-hotel,
+.slider-province {
+  margin-top: 30px;
+}
+.slides {
+  display: none;
+}
+
+.slides.active {
+  display: block;
+}
+.slider-province {
+  display: flex;
+  flex-wrap: wrap; 
+  gap: 20px; 
+  justify-content: center;
+  align-items: center;
+  overflow-x: auto; 
+  padding: 20px;
+}
+.slider-province img {
+  width: 180px; /* эсвэл % өгч болно */
+  height: 120px;
+  object-fit: cover;
+  border-radius: 8px;
+ 
 }
