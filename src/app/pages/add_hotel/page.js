@@ -1,4 +1,4 @@
-import Header from '../..component/Header';
+import Header from '../../component/Header';
 import Footer from '../../component/Footer';
 import style from './styles.module.css';
 

@@ -1,67 +1,138 @@
-:root {
-    --primary-color: #4D8AF0;
-    --primary-hover: #3b72c5;
-    --box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
-    --radius: 10px;
-    --spacing: 1.5rem;
-  }
-  
-  .container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 90vh;
-    padding: 1rem;
-    gap: 2rem;
-    flex-wrap: wrap;
-  }
-  
-  .imageSection img {
-    max-width: 100%;
-    max-height: 400px;
-    border-radius: var(--radius);
-    object-fit: cover;
-  }
-  
-  .loginForm {
-    background-color: white;
-    padding: var(--spacing);
-    border-radius: var(--radius);
-    box-shadow: var(--box-shadow);
-    width: 100%;
-    max-width: 350px;
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
-  }
-  
-  .passwordWrapper {
-    position: relative;
-  }
-  
-  .togglePassword {
-    position: absolute;
-    right: 10px;
-    top: 50%;
-    transform: translateY(-50%);
-    cursor: pointer;
-    font-size: 1.2rem;
-  }
-  
-  .socialIcons {
-    display: flex;
-    justify-content: space-around;
-    margin-top: 1rem;
-  }
-  
-  .socialIcons img {
-    width: 30px;
-    height: 30px;
-    cursor: pointer;
-    transition: transform 0.2s ease;
-  }
-  
-  .socialIcons img:hover {
-    transform: scale(1.1);
-  }
-  
+/* styles.module.css */
+.container {
+  display: flex;
+  min-height: 90vh;
+  justify-content: center;
+  align-items: center;
+  padding: 40px;
+  gap: 40px;
+  background-color: #f9f9f9;
+}
+
+.imageSection {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.imageSection img {
+  width: 100%;
+  max-width: 500px;
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+}
+
+.loginForm {
+  flex: 1;
+  background: #fff;
+  padding: 40px;
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+}
+
+.loginForm h1 {
+  margin-bottom: 20px;
+  font-size: 28px;
+  font-weight: 600;
+}
+
+.loginForm form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.loginForm input[type="email"],
+.loginForm input[type="password"] {
+  padding: 12px 16px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  font-size: 16px;
+}
+
+.passwordWrapper {
+  position: relative;
+}
+
+.togglePassword {
+  position: absolute;
+  top: 50%;
+  right: 12px;
+  transform: translateY(-50%);
+  cursor: pointer;
+  font-size: 18px;
+}
+
+.loginForm label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+}
+
+.loginForm a {
+  font-size: 14px;
+  color: #0070f3;
+  text-decoration: none;
+  align-self: flex-end;
+}
+
+.loginForm a:hover {
+  text-decoration: underline;
+}
+
+.loginForm button {
+  padding: 12px;
+  background-color: #0070f3;
+  color: white;
+  font-size: 16px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.loginForm button:hover {
+  background-color: #0059c1;
+}
+
+.loginForm p {
+  text-align: center;
+  margin-top: 20px;
+  font-size: 14px;
+  color: #555;
+}
+
+.socialIcons {
+  display: flex;
+  justify-content: center;
+  gap: 16px;
+  margin-top: 10px;
+}
+
+.socialIcons img {
+  width: 32px;
+  height: 32px;
+  cursor: pointer;
+  transition: transform 0.2s;
+}
+
+.socialIcons img:hover {
+  transform: scale(1.1);
+}
+
+.error {
+    background-color: #fee2e2;
+    color: #dc2626;
+    padding: 12px;
+    border-radius: 8px;
+    margin-bottom: 16px;
+    font-size: 14px;
+    text-align: center;
+}
+
+.loginForm button:disabled {
+    background-color: #93c5fd;
+    cursor: not-allowed;
+}

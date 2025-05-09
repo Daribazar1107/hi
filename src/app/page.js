@@ -12,9 +12,9 @@ export default function Home() {
         <div className="hotel-slides">
           <h2>Онцлох зочид буудлууд</h2>
           <img src="photos/front.png" alt="" />
-          <div className="slides"><img src="photes/hotel3.jpg" alt="1" /></div>
-          <div className="slides"><img src="photos/ub hotel.jpg" alt="2" /></div>
-          <div className="slides"><img src="photos/hotel3.jpg" alt="3" /></div>
+          <div className="slides"><img src="photes/hotels/hotel3.jpg" alt="1" /></div>
+          <div className="slides"><img src="photos/hotels/front.jpg" alt="2" /></div>
+          <div className="slides"><img src="photos/hotels/hotel3.jpg" alt="3" /></div>
         </div>
         
         <a className="prev" href="#prev">❮</a>
@@ -23,12 +23,12 @@ export default function Home() {
 
       <h2>21 Аймаг</h2>
       <div className="slider-province">
-        <img src="photos/uvurhangai.jfif" alt="" />
-        <img src="photos/arhangai.jfif" alt="" />
-        <img src="photos/uvurhangai.jfif" alt="" />
-        <img src="photos/arhangai.jfif" alt="" />
-        <img src="photos/uvurhangai.jfif" alt="" />
-        <img src="photos/arhangai.jfif" alt="" />
+        <img src="photos/provinces/uvurhangai.jfif" alt="" />
+        <img src="photos/provinces/arhangai.jfif" alt="" />
+        <img src="photos/provinces/uvurhangai.jfif" alt="" />
+        <img src="photos/provinces/arhangai.jfif" alt="" />
+        <img src="photos/provinces/uvurhangai.jfif" alt="" />
+        <img src="photos/provinces/arhangai.jfif" alt="" />
       </div>
 
       <div className="comment-container">
