@@ -70,3 +70,10 @@ export async function POST(request) {
         );
     }
 }
+
+export async function GET(request) {
+    return NextResponse.json(
+        { message: "GET request to /api/users" },
+        { status: 200 }
+    );
+}

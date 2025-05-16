@@ -1,69 +1,116 @@
 'use client';
 
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import Header from '../../component/Header';
 import Footer from '../../component/Footer';
 import style from './styles.module.css';
+import axios from 'axios';
+import { useRouter } from 'next/navigation';
 
-export default function AddHotel() {
-  useEffect(() => {
-    const modal = document.getElementById('termsModal');
-    const openBtn = document.getElementById('openTerms');
-    const closeBtn = document.querySelector(`.${style.close}`);
+export default function Add_Hotel() {
+  const router = useRouter();
+  const [error, setError] = useState('');
+  const [loading, setLoading] = useState(false);
 
-    openBtn.onclick = function (e) {
-      e.preventDefault();
-      modal.style.display = 'block';
-    };
+  // State for location and detail
+  const [location, setLocation] = useState('');
+  const [ubDetail, setUbDetail] = useState('');
+  const [roomCount, setRoomCount] = useState(1);
+  const [rooms, setRooms] = useState([{ price: "", beds: 1, bedType: "Ганц ор" }]);
+  const [amenities, setAmenities] = useState({
+    wifi: false,
+    breakfast: false,
+    parking: false,
+    restaurant: false
+  });
 
-    closeBtn.onclick = function () {
-      modal.style.display = 'none';
-    };
+  const handleLocationChange = (e) => {
+    setLocation(e.target.value);
+    if (e.target.value !== 'Ulaanbaatar') {
+      setUbDetail('');
+    }
+  };
 
-    window.onclick = function (event) {
-      if (event.target === modal) {
-        modal.style.display = 'none';
+  const handleRoomChange = (e) => {
+    const count = Math.max(1, Math.min(3, parseInt(e.target.value || 1)));
+    setRoomCount(count);
+  
+    setRooms((prev) => {
+      const updated = [...prev];
+      updated.length = count;
+      for (let i = 0; i < count; i++) {
+        if (!updated[i]) {
+          updated[i] = { price: "", beds: 1, bedType: "Ганц ор" };
+        }
       }
-    };
-  }, []);
+      return updated;
+    });
+  };
+  
+  const handleRoomFieldChange = (index, field, value) => {
+    const updated = [...rooms];
+    updated[index][field] = value;
+    setRooms(updated);
+  };
+
+  const handleAmenityChange = (name, value) => {
+    setAmenities(prev => ({
+      ...prev,
+      [name]: value === 'yes'
+    }));
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setError('');
+    setLoading(true);
+
+    try {
+      const formData = new FormData(e.target);
+      const hotelData = {
+        name: formData.get('hotelName'),
+        location: formData.get('location'),
+        ubDetail: formData.get('ubDetail'),
+        stars: parseInt(formData.get('stars')),
+        email: formData.get('email'),
+        rooms: rooms.map(room => ({
+          price: parseInt(room.price),
+          beds: parseInt(room.beds),
+          bedType: room.bedType
+        })),
+        extraAddress: formData.get('extraAddress'),
+        amenities: amenities,
+        images: [] // You'll need to implement image upload separately
+      };
+
+      const response = await axios.post('/api/hotels', hotelData);
+      
+      if (response.status === 201) {
+        router.push('/'); // Redirect to home page after successful addition
+      }
+    } catch (error) {
+      console.error('Error adding hotel:', error);
+      setError(error.response?.data?.error || 'Буудал нэмэхэд алдаа гарлаа');
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
     <>
       <Header />
       <form
-        action="#"
-        method="post"
-        encType="multipart/form-data"
+        onSubmit={handleSubmit}
         className={style.hotel}
       >
+        {error && <div className={style.error}>{error}</div>}
+        
         <label htmlFor="name">Буудлын нэр</label>
-        <input type="text" id="name" name="hotelName" placeholder="" /><br /><br />
-
-        <label htmlFor="email">Цахим хаяг</label>
-        <input type="email" id="email" name="email" placeholder="Цахим хаяг оруулах" /><br /><br />
-
-        <label>1 ортой өрөө</label>
-        <input type="number" name="roomCount1" placeholder="Жишээ: 1" /><br />
-        <label htmlFor="price1">Үнэ</label>
-        <input type="text" name="price1" placeholder="Жишээ: 100000" /><br /><br />
-
-        <label>2 ортой өрөө</label>
-        <input type="number" name="roomCount2" placeholder="Жишээ: 2" /><br />
-        <label htmlFor="price2">Үнэ</label>
-        <input type="text" name="price2" placeholder="Жишээ: 100000" /><br /><br />
-
-        <label>3 ортой өрөө</label>
-        <input type="number" name="roomCount3" placeholder="Жишээ: 1" /><br />
-        <label htmlFor="price3">Үнэ</label>
-        <input type="text" name="price3" placeholder="Жишээ: 100000" /><br /><br />
-
-        <label>4 ортой өрөө</label>
-        <input type="number" name="roomCount4" placeholder="Жишээ: 1" /><br />
-        <label htmlFor="price4">Үнэ</label>
-        <input type="text" name="price4" placeholder="Жишээ: 100000" /><br /><br />
+        <input type="text" id="name" name="hotelName" placeholder="" required /><br /><br />
 
         <label htmlFor="hayg">Хаяг</label>
-        <select name="location" id="hayg">
+        <select name="location" id="hayg" value={location} onChange={handleLocationChange} required>
+          <option value="">--Сонгох--</option>
           <option value="Ulaanbaatar">Улаанбаатар</option>
           <option value="Tsetserleg">Архангай аймаг</option>
           <option value="Ulgii">Баян-Өлгий</option>
@@ -87,6 +134,94 @@ export default function AddHotel() {
           <option value="Chingis">Хэнтий</option>
         </select><br /><br />
 
+        {location === 'Ulaanbaatar' && (
+          <div>
+            <label>Дэлгэрэнгүй (Улаанбаатар):</label>
+            <select
+              name="ubDetail"
+              value={ubDetail}
+              onChange={e => setUbDetail(e.target.value)}
+              required
+            >
+              <option value="">--Сонгох--</option>
+              <option value="a">Багануур</option>
+              <option value="b">Багахангай</option>
+              <option value="c">Баянгол</option>
+              <option value="d">Баянзүрх</option>
+              <option value="e">Налайх</option>
+              <option value="f">Сонгинохайрхан</option>
+              <option value="g">Сүхбаатар</option>
+              <option value="h">Хан-Уул</option>
+              <option value="i">Чингэлтэй</option>
+            </select>
+            <br /><br />
+          </div>
+        )}  
+
+        <label htmlFor="stars">од</label>
+        <input type="number" id="stars" name="stars" min="1" max="5" placeholder="Жишээ: 3" required /><br /><br />
+
+        <label htmlFor="email">Цахим хаяг</label>
+        <input
+          type="email"
+          id="email"
+          name="email"
+          placeholder="Цахим хаяг оруулах"
+          pattern="^(?!.*example\.com).*"
+          title="example.com домэйн бүхий хаяг зөвшөөрөхгүй"
+          required
+        /><br /><br />
+
+        <label htmlFor="rooms">Хэдэн өрөө оруулах вэ?</label>
+        <input
+          type="number"
+          id="room"
+          name="room"
+          min="1"
+          max="3"
+          value={roomCount}
+          onChange={handleRoomChange}
+          placeholder="Жишээ: 2"
+          required
+        /><br /><br />
+
+        {rooms.map((room, index) => (
+          <div key={index} style={{ border: "1px solid #ccc", padding: "10px", marginBottom: "10px" }}>
+            <h4>Өрөө {index + 1}</h4>
+
+            <label>Үнэ ₮:</label>
+            <input
+              type="number"
+              placeholder="₮"
+              value={room.price}
+              onChange={(e) => handleRoomFieldChange(index, "price", e.target.value)}
+              required
+            /><br />
+
+            <label>Орны тоо:</label>
+            <input
+              type="number"
+              min="1"
+              max="5"
+              value={room.beds}
+              onChange={(e) => handleRoomFieldChange(index, "beds", e.target.value)}
+              required
+            /><br />
+
+            <label>Орны төрөл:</label>
+            <select
+              value={room.bedType}
+              onChange={(e) => handleRoomFieldChange(index, "bedType", e.target.value)}
+              required
+            >
+              <option value="King size">King size</option>
+              <option value="Queen size">Queen size</option>
+              <option value="2 queen">2 queen</option>
+              <option value="3 queen">3 queen</option>
+            </select>
+          </div>
+        ))}
+
         <label htmlFor="extraAddress">Нэмэлт хаяг</label>
         <input type="text" id="extraAddress" name="extraAddress" /><br /><br />
 
@@ -94,29 +229,29 @@ export default function AddHotel() {
           <tbody>
             <tr>
               <td>Free WiFi</td>
-              <td><input type="radio" name="wifi" value="yes" /> Байгаа</td>
-              <td><input type="radio" name="wifi" value="no" /> Байхгүй</td>
+              <td><input type="radio" name="wifi" value="yes" onChange={(e) => handleAmenityChange('wifi', e.target.value)} /> Байгаа</td>
+              <td><input type="radio" name="wifi" value="no" onChange={(e) => handleAmenityChange('wifi', e.target.value)} /> Байхгүй</td>
             </tr>
             <tr>
               <td>Өглөөний цай</td>
-              <td><input type="radio" name="breakfast" value="yes" /> Байгаа</td>
-              <td><input type="radio" name="breakfast" value="no" /> Байхгүй</td>
+              <td><input type="radio" name="breakfast" value="yes" onChange={(e) => handleAmenityChange('breakfast', e.target.value)} /> Байгаа</td>
+              <td><input type="radio" name="breakfast" value="no" onChange={(e) => handleAmenityChange('breakfast', e.target.value)} /> Байхгүй</td>
             </tr>
             <tr>
               <td>Зогсоол</td>
-              <td><input type="radio" name="parking" value="yes" /> Байгаа</td>
-              <td><input type="radio" name="parking" value="no" /> Байхгүй</td>
+              <td><input type="radio" name="parking" value="yes" onChange={(e) => handleAmenityChange('parking', e.target.value)} /> Байгаа</td>
+              <td><input type="radio" name="parking" value="no" onChange={(e) => handleAmenityChange('parking', e.target.value)} /> Байхгүй</td>
             </tr>
             <tr>
               <td>Ресторан</td>
-              <td><input type="radio" name="restaurant" value="yes" /> Байгаа</td>
-              <td><input type="radio" name="restaurant" value="no" /> Байхгүй</td>
+              <td><input type="radio" name="restaurant" value="yes" onChange={(e) => handleAmenityChange('restaurant', e.target.value)} /> Байгаа</td>
+              <td><input type="radio" name="restaurant" value="no" onChange={(e) => handleAmenityChange('restaurant', e.target.value)} /> Байхгүй</td>
             </tr>
           </tbody>
         </table><br />
 
         <label htmlFor="img">Зураг оруулах:</label>
-        <input type="file" id="img" name="hotelImage" accept="image/*" /><br /><br />
+        <input type="file" id="img" name="hotelImage" accept="image/*" multiple /><br /><br />
 
         <div id="termsModal" className={style.modal}>
           <div className={style.modalContent}>
@@ -139,8 +274,12 @@ export default function AddHotel() {
           <a href="#" id="openTerms">Үйлчилгээний нөхцлийг зөвшөөрч байна</a>
         </label>
 
-        <button type="submit" className={style.submitButton}>
-          Зочид буудал нэмэх
+        <button 
+          type="submit" 
+          className={style.submitButton}
+          disabled={loading}
+        >
+          {loading ? 'Түр хүлээнэ үү...' : 'Зочид буудал нэмэх'}
         </button>
       </form>
       <Footer />

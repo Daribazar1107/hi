@@ -1,7 +1,6 @@
 import connectionToDatabase from "../../../../lib/mongoose";
 import User from "../../../../models/User";
 import { NextResponse } from "next/server";
-import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 
 export async function POST(request) {

@@ -14,9 +14,9 @@ export default function Header() {
     }, []);
 
     const handleLogout = () => {
-        localStorage.removeItem('user'); // Fixed the empty string to 'user'
+        localStorage.removeItem('user'); 
         setIsLoggedIn(false);
-        window.location.href = '/'; // redirect
+        window.location.href = '/'; 
     };
 
     return (
@@ -33,7 +33,10 @@ export default function Header() {
                             <li><Link href="/pages/sign_in">Бүртгэл үүсгэх</Link></li>
                         </>
                     ) : (
-                        <li><button onClick={handleLogout} style={{ background: 'none', border: 'none', cursor: 'pointer', color: 'white' }}>Гарах</button></li>
+                        <>
+                            <li><a href="#"><img src="/photos/icons/x.png" alt="user-profile" /></a></li>
+                            <li><button onClick={handleLogout} style={{ background: 'none', border: 'none', cursor: 'pointer', color: 'white' }}>Гарах</button></li>
+                        </>
                     )}
                     <li><a href="#"><img src="/photos/icons/flag1.PNG" alt="english-mode" /></a></li>
                 </ul>

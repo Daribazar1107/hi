@@ -25,10 +25,10 @@ export default function LoginPage() {
                 password
             });
             
-            // Store the token in localStorage
+            // Store the token 
             localStorage.setItem('user', response.data.token);
             
-            // Redirect to home page after successful login
+            
             router.push('/');
         } catch (error) {
             console.error("Error during login:", error);
@@ -68,6 +68,13 @@ export default function LoginPage() {
                         required
                         minLength={6}
                     />
+                    <div className={style.forgotPassword}>
+                        <a href="/pages/forgotPassword">Нууц үгээ мартсан</a>
+                    </div>
+                    <div className={style.register}>
+                        <span>Шинэ хэрэглэгч үү? </span>
+                        <a href="/pages/sign_in">Бүртгүүлэх</a>
+                    </div>
                     <button 
                         className={style.button} 
                         type="submit"
