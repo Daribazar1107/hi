@@ -12,17 +12,17 @@ export default function Add_Hotel() {
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
 
-  // State for location and detail
   const [location, setLocation] = useState('');
   const [ubDetail, setUbDetail] = useState('');
   const [roomCount, setRoomCount] = useState(1);
-  const [rooms, setRooms] = useState([{ price: "", beds: 1, bedType: "Ганц ор" }]);
+  const [rooms, setRooms] = useState([{ price: "", beds: 1, bedType: "King size" }]);
   const [amenities, setAmenities] = useState({
     wifi: false,
     breakfast: false,
     parking: false,
     restaurant: false
   });
+  const [images, setImages] = useState([]);
 
   const handleLocationChange = (e) => {
     setLocation(e.target.value);
@@ -40,7 +40,7 @@ export default function Add_Hotel() {
       updated.length = count;
       for (let i = 0; i < count; i++) {
         if (!updated[i]) {
-          updated[i] = { price: "", beds: 1, bedType: "Ганц ор" };
+          updated[i] = { price: "", beds: 1, bedType: "King size" };
         }
       }
       return updated;
@@ -60,6 +60,26 @@ export default function Add_Hotel() {
     }));
   };
 
+  const handleImageChange = async (e) => {
+    const files = Array.from(e.target.files);
+    const imagePromises = files.map(file => {
+      return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.onload = (e) => resolve(e.target.result);
+        reader.onerror = (error) => reject(error);
+        reader.readAsDataURL(file);
+      });
+    });
+
+    try {
+      const base64Images = await Promise.all(imagePromises);
+      setImages(base64Images);
+    } catch (error) {
+      console.error('Error converting images:', error);
+      setError('Зураг хөрвүүлэхэд алдаа гарлаа');
+    }
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError('');
@@ -76,21 +96,35 @@ export default function Add_Hotel() {
         rooms: rooms.map(room => ({
           price: parseInt(room.price),
           beds: parseInt(room.beds),
-          bedType: room.bedType
+          bedType: room.bedType === "King size" ? "King size" : "Queen size"
         })),
         extraAddress: formData.get('extraAddress'),
         amenities: amenities,
-        images: [] // You'll need to implement image upload separately
+        images: images
       };
+
+      if (!hotelData.name || !hotelData.location || !hotelData.email) {
+        throw new Error('Name, location, and email are required');
+      }
+
+      if (!Array.isArray(hotelData.rooms) || hotelData.rooms.length === 0) {
+        throw new Error('At least one room is required');
+      }
+
+      for (const room of hotelData.rooms) {
+        if (!room.price || !room.beds || !room.bedType) {
+          throw new Error('Each room must have price, beds, and bed type');
+        }
+      }
 
       const response = await axios.post('/api/hotels', hotelData);
       
       if (response.status === 201) {
-        router.push('/'); // Redirect to home page after successful addition
+        router.push('/'); 
       }
     } catch (error) {
       console.error('Error adding hotel:', error);
-      setError(error.response?.data?.error || 'Буудал нэмэхэд алдаа гарлаа');
+      setError(error.response?.data?.error || error.message || 'Буудал нэмэхэд алдаа гарлаа');
     } finally {
       setLoading(false);
     }
@@ -216,8 +250,6 @@ export default function Add_Hotel() {
             >
               <option value="King size">King size</option>
               <option value="Queen size">Queen size</option>
-              <option value="2 queen">2 queen</option>
-              <option value="3 queen">3 queen</option>
             </select>
           </div>
         ))}
@@ -251,7 +283,30 @@ export default function Add_Hotel() {
         </table><br />
 
         <label htmlFor="img">Зураг оруулах:</label>
-        <input type="file" id="img" name="hotelImage" accept="image/*" multiple /><br /><br />
+        <input 
+          type="file" 
+          id="img" 
+          name="hotelImage" 
+          accept="image/*" 
+          multiple 
+          onChange={handleImageChange}
+        />
+        {images.length > 0 && (
+          <div style={{ marginTop: '10px' }}>
+            <p>Сонгосон зургууд ({images.length}):</p>
+            <div style={{ display: 'flex', gap: '10px', flexWrap: 'wrap' }}>
+              {images.map((img, index) => (
+                <img 
+                  key={index} 
+                  src={img} 
+                  alt={`Preview ${index + 1}`} 
+                  style={{ width: '100px', height: '100px', objectFit: 'cover' }}
+                />
+              ))}
+            </div>
+          </div>
+        )}
+        <br /><br />
 
         <div id="termsModal" className={style.modal}>
           <div className={style.modalContent}>

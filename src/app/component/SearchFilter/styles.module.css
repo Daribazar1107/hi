@@ -1,58 +1,115 @@
 .search {
-  background-color: #f9f9f9;
-  padding: 20px;
-  border-radius: 10px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  background-color: #f8f9fa;
+  padding: 20px 0;
+}
+
+.searchFilters {
+  width: 100%;
   max-width: 1200px;
   margin: 0 auto;
 }
 
-.searchFilters {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 16px;
-}
-
 .searchContainer {
   display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-  gap: 8px;
-  width: 100%;
+  gap: 10px;
+  align-items: center;
+  padding: 0 20px;
 }
 
-.searchContainer input[type="text"],
+.searchInputWrapper {
+  position: relative;
+  flex: 2;
+}
+
+.searchInputWrapper input {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  font-size: 16px;
+}
+
 .searchContainer input[type="date"],
 .searchContainer input[type="number"] {
-  flex: 1;
-  min-width: 120px;
-  padding: 12px 16px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
+  padding: 12px;
+  border: 1px solid #ddd;
+  border-radius: 6px;
   font-size: 16px;
-  transition: border-color 0.3s;
-}
-
-.searchContainer input[type="text"]:focus,
-.searchContainer input[type="date"]:focus,
-.searchContainer input[type="number"]:focus {
-  border-color: #007bff;
-  outline: none;
 }
 
 .button {
-  background-color: #007bff;
-  color: #fff;
   padding: 12px 24px;
-  font-size: 16px;
+  background-color: #0070f3;
+  color: white;
   border: none;
-  border-radius: 4px;
+  border-radius: 6px;
   cursor: pointer;
-  transition: background-color 0.3s;
+  font-size: 16px;
+  transition: background-color 0.2s;
 }
 
 .button:hover {
-  background-color: #0056b3;
+  background-color: #0051a8;
+}
+
+/* Search Results Styles */
+.searchResults {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  margin-top: 5px;
+  max-height: 300px;
+  overflow-y: auto;
+  z-index: 1000;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.resultItem {
+  display: block;
+  padding: 12px;
+  text-decoration: none;
+  color: inherit;
+  border-bottom: 1px solid #eee;
+  transition: background-color 0.2s;
+}
+
+.resultItem:last-child {
+  border-bottom: none;
+}
+
+.resultItem:hover {
+  background-color: #f5f5f5;
+}
+
+.hotelInfo h4 {
+  margin: 0 0 5px 0;
+  color: #333;
+}
+
+.hotelInfo p {
+  margin: 0;
+  color: #666;
+  font-size: 14px;
+}
+
+.loading {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #666;
+  font-size: 14px;
+}
+
+.error {
+  color: #dc3545;
+  font-size: 14px;
+  margin-top: 5px;
 }
 
 @media (max-width: 768px) {

@@ -46,11 +46,14 @@ export async function POST(request) {
             { expiresIn: '24h' }
         );
 
+        // Return user data and token
         return NextResponse.json({
+            success: true,
             token,
             user: {
                 email: user.email,
-                role: user.role
+                role: user.role,
+                name: user.name
             }
         });
     } catch (error) {

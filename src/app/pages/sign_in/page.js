@@ -42,7 +42,7 @@ export default function SignIn() {
                     <img src="/photos/hotels/grand.jpg" alt="Building" />
                 </div>
                 <div className={style.loginForm}>
-                    <h1>Нэвтрэх</h1>
+                    <h1>Бүртгүүлэх</h1>
                     {error && <div className={style.error}>{error}</div>}
                     <form onSubmit={handleSubmit}>
                         <input
