@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import connectionToDatabase from "../../../lib/mongoose";
-import Hotel from "../../app/models/Hotel";
+import Hotel from "../../models/Hotel";
 
 export async function POST(request) {
   try {
