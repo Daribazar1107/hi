@@ -13,6 +13,7 @@ export default function Home() {
           <h2>Онцлох зочид буудлууд</h2>
           <h2>Test uguulber</h2>
           <h2>Test uguulber</h2>
+          <h2>Daribazar test</h2>
           <img src="photos/front.png" alt="" />
           <div className="slides"><img src="photes/hotels/hotel3.jpg" alt="1" /></div>
           <div className="slides"><img src="photos/hotels/front.jpg" alt="2" /></div>
