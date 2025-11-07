@@ -11,7 +11,7 @@ export default function Home() {
       <div className="slider-hotel">
         <div className="hotel-slides">
           <h2>Онцлох зочид буудлууд</h2>
-          <h2>Test uguulber</h2>
+          <h2>Test ugu5ulber</h2>
           <h2>daribazar test</h2>
           <img src="photos/front.png" alt="" />
           <div className="slides"><img src="photes/hotels/hotel3.jpg" alt="1" /></div>
